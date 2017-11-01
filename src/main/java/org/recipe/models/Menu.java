@@ -1,6 +1,5 @@
 package org.recipe.models;
 
-import org.recipe.models.Recipe;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -27,6 +26,7 @@ public class Menu {
     public Menu() {}
     public Menu(String name){ this.name = name; }
     public void addItem(Recipe item) {recipes.add(item); }
+    public void removeItem(Recipe item) {recipes.remove(item); }
 
     //Getters/Setters
     public void setId(int id) { this.id = id; }

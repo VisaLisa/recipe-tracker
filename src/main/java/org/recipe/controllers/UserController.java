@@ -25,6 +25,9 @@ public class UserController extends AbstractController {
         model.addAttribute("sessionOn", isSessionActive(request.getSession()));
         model.addAttribute("isAuthor",
                 getUserFromSession(request.getSession()) == user);
+        model.addAttribute("sessionUser", getUserFromSession(request.getSession()));
+        model.addAttribute("faveTitle", user.getUsername() + "'s Favorites");
+        model.addAttribute("favorites", user.getFavorites());
         return "list-recipes";
     }
 

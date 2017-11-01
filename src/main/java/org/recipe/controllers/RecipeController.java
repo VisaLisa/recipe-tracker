@@ -1,6 +1,7 @@
 package org.recipe.controllers;
 
 import org.recipe.models.Recipe;
+import org.recipe.models.User;
 import org.recipe.models.data.RecipeDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,10 +28,13 @@ public class RecipeController extends AbstractController {
 
         //get the Recipe with the given ID and pass it into the view
         Recipe recipe = recipeDao.findOne(id);
+        User user = getUserFromSession(request.getSession());
+
         model.addAttribute("recipe", recipe);
         model.addAttribute("isAuthor",
-                getUserFromSession(request.getSession()) == recipe.getAuthor());
+                user == recipe.getAuthor());
         model.addAttribute("sessionOn", isSessionActive(request.getSession()));
+        model.addAttribute("sessionUser", user);
         return "recipe-detail";
     }
 
@@ -44,10 +48,6 @@ public class RecipeController extends AbstractController {
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String add(Model model, @ModelAttribute @Valid Recipe recipe, Errors errors, HttpServletRequest request) {
-
-        // TODO #6 - Validate the RecipeForm model, and if valid, create a
-        // new Recipe and add it to the recipeData data store. Then
-        // redirect to the job detail view for the new Recipe.
 
         model.addAttribute("sessionOn", isSessionActive(request.getSession()));
         if (errors.hasErrors()) {

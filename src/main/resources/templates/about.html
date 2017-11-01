@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head">
+</head>
+<body>
+
+<div th:replace="fragments :: page-header"></div>
+
+<div class="jumbotron about-image">
+
+
+
+    <div class="container">
+
+
+        <h1>RECIPE TRACKER</h1>
+        <p>Make us your online cookbook! Whip, bake, and post your next meal for free.</p>
+        <p th:if="${sessionOn == false}"><a class="btn btn-primary btn-lg" th:href="@{/register}">Sign up for more recipes</a></p>
+
+    </div>
+    <!--   /container  -->
+</div>
+
+
+<div class="container">
+
+    <div class="page-header">
+        <h1>About Recipe Tracker</h1>
+    </div><!--  /page-header  -->
+
+    <h2>Whether you're cooking a feast for the holidays or just need some great ideas for dinner, we have all the recipes, cooking tips and techniques to make simple and delicious food you and your family will love.</h2>
+    <h2>See our code on <a href="https://github.com/jecai/recipe">Github</a> at https://github.com/jecai/recipe </h2>
+
+    <span></span>
+
+    <div class="page-header">
+        <h1>Tools We Use</h1>
+    </div>
+    <ul>
+        <li>MAMP</li>
+        <li>Gradle</li>
+        <li>BootStrap</li>
+
+    </ul>
+    <!--  /page-header  -->
+
+
+    <span></span>
+    <div class="page-header">
+        <h1>Our Team</h1>
+    </div>
+    <section class="team">
+        <div class="team-flex-container" id="team">
+            <div></div>
+            <article class="team-flex-item">
+                <figure>
+                    <img class="portrait" src="https://ih0.redbubble.net/image.377429192.4859/st%2Csmall%2C215x235-pad%2C210x230%2Cf8f8f8.lite-1u1.jpg"></img>
+                </figure>
+                <div class="team-bio-copy">
+                    <h3><a href="https//www.github.com/jecai">@jecai</a></h3>
+                    <p>Full-stack Developer</p>
+                </div>
+            </article>
+            <article class="team-flex-item">
+                <figure>
+                    <img class="portrait" src="https://scontent-sea1-1.cdninstagram.com/t51.2885-15/s480x480/e15/10954220_549759201827962_1462388012_n.jpg?ig_cache_key=OTA2NTk1NjQyMzc1NDUxMTE2.2"></img>
+                </figure>
+                <div class="team-bio-copy">
+                    <h3><a href="https//www.github.com/wilsonchan789">@wilsonchan789</a></h3>
+                    <p>Full-stack Developer</p>
+                </div>
+            </article>
+            <article class="team-flex-item">
+                <figure>
+                    <img class="portrait" src="https://images.cdn1.stockunlimited.net/clipart/soda-drink_2008863.jpg"></img>
+                </figure>
+                <div class="team-bio-copy">
+                    <h3><a href="https//www.github.com/cpyli">@cpyli</a></h3>
+                    <p>Full-stack Developer</p>
+                </div>
+            </article>
+            <article class="team-flex-item">
+                <figure>
+                    <img class="portrait" src="https://ih0.redbubble.net/image.328775755.3059/flat,800x800,075,f.jpg"></img>
+                </figure>
+                <div class="team-bio-copy">
+                    <h3><a href="https//www.github.com/visalisa">@Visalisa</a></h3>
+                    <p>Full-stack Developer</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+</div>
+
+
+
+</body>
+</html>ml>

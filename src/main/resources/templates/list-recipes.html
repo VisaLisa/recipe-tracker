@@ -30,6 +30,13 @@
                             <a th:if="${isAuthor}" th:href="@{/recipe/edit/} + ${recipe.id}" >
                                 <button>Edit Recipe</button>
                             </a>
+
+                            <div th:if="${sessionOn == true and not #lists.contains(recipe.favoritedBy, sessionUser)}">
+                                <form method="post" style="max-width:600px;" action="/favorite/add">
+                                    <input type="hidden" th:value="${recipe.id}" name="recipeId" />
+                                    <input type="submit" value="Favorite" />
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -42,17 +49,63 @@
                     </tr>
                     <tr>
                         <th>Ingredients</th>
+
                         <td>
-                            <span th:each="ingredient : ${#strings.arraySplit(recipe.ingredient, ';')}">
-                                <li th:text="${ingredient}"></li>
-                            </span>
+                            <li th:each="ingredient : ${#strings.arraySplit(recipe.ingredient, '&#10;')}">
+                                <label th:for="${ingredient}" th:text="${ingredient}"></label>
+                            </li>
+
+                            <!--<form method="post" style="max-width:600px;" action="/checklist">-->
+                                <!--<div class="checkbox"-->
+                                     <!--th:each="ingredient : ${#strings.arraySplit(recipe.ingredient, '&#10;')}">-->
+                                    <!--<input type="checkbox" name="ingredientNames"-->
+                                           <!--th:value="${ingredient}" th:id="${ingredient}"/>-->
+                                    <!--<label th:for="${ingredient}" th:text="${ingredient}"></label>-->
+                                <!--</div>-->
+                                <!--<input type="submit" value="Add Ingredients" />-->
+                            <!--</form>-->
+
                         </td>
                     </tr>
                 </table>
             </div>
 
         </div>
+    </div>
 
+    <br />
+    <br />
+
+    <div th:unless="${favoritesOff}">
+        <h1>
+            <span th:text="${#strings.capitalizeWords(faveTitle)}"></span>
+            <span class="glyphicon glyphicon-cutlery"></span>
+        </h1>
+
+        <div th:unless="${favorites} and ${favorites.size()}">
+            <h2>No Recipes</h2>
+        </div>
+
+        <div th:if="${favorites} and ${favorites.size()}">
+
+            <h3 th:text="${favorites.size() + ' Recipe(s)'}"></h3>
+
+            <div class="row">
+                <div class="col col-md-1"></div>
+                <div class="col col-md-10">
+                    <div th:each="recipe : ${favorites}" class="col img-container col-sm-4 text-center">
+                        <a th:href="@{/recipe?id=} + ${recipe.id}">
+                            <img class="recipe-img" th:src="${recipe.imageUrl}"></img>
+                            <div class="middle">
+                                <p class="name" th:text="${#strings.capitalizeWords(recipe.name)}"></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col col-md-1"></div>
+            </div>
+
+        </div>
     </div>
 </div>
 

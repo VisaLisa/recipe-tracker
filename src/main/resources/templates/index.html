@@ -6,7 +6,7 @@
 
 <div th:replace="fragments :: page-header"></div>
 
-<div class="jumbotron bg-image">
+<div class="jumbotron all-image">
 
 
 
@@ -23,13 +23,15 @@
 
 
 <div class="container">
-        <h1>About</h1>
-
-    <p>Whether you're cooking a feast for the holidays or just need some great ideas for dinner, we have all the recipes, cooking tips and techniques to make simple and delicious food you and your family will love.</p>
-
+        <!--<h1>How to use our site</h1>-->
+    <!--<ul>-->
+        <!--<li> 1. Create a Username & Log in </li>-->
+        <!--<li>2. Look throgh other people's recipe</li>-->
+        <!--<li>3. Add your own recipes</li>-->
+        <!--<li>4. Edit your recipe</li>-->
+    <!--</ul>-->
 
     <div class="container body-content">
-
 
         <h1>
             <span th:text="${#strings.capitalizeWords(title)}"></span>
@@ -59,6 +61,43 @@
                 <div class="col col-md-1"></div>
             </div>
 
+        </div>
+
+        <br />
+        <br />
+
+        <div th:if="${sessionOn == true and favoritesOff != true}">
+            <a th:href="@{/user?id=} + ${session.user_id}">
+                <h1>
+                    <span th:text="${#strings.capitalizeWords(faveTitle)}"></span>
+                    <span class="glyphicon glyphicon-cutlery"></span>
+                </h1>
+            </a>
+
+            <div th:unless="${favorites} and ${favorites.size()}">
+                <h2>No Recipes</h2>
+            </div>
+
+            <div th:if="${favorites} and ${favorites.size()}">
+
+                <h3 th:text="${favorites.size() + ' Recipe(s)'}"></h3>
+
+                <div class="row">
+                    <div class="col col-md-1"></div>
+                    <div class="col col-md-10">
+                        <div th:each="recipe : ${favorites}" class="col img-container col-sm-4 text-center">
+                            <a th:href="@{/recipe?id=} + ${recipe.id}">
+                                <img class="recipe-img" th:src="${recipe.imageUrl}"></img>
+                                <div class="middle">
+                                    <p class="name" th:text="${#strings.capitalizeWords(recipe.name)}"></p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col col-md-1"></div>
+                </div>
+
+            </div>
         </div>
 
         <div th:form="${login}"> </div>

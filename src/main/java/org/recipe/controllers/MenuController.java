@@ -30,8 +30,8 @@ public class MenuController extends AbstractController {
     @RequestMapping(value = "")
     public String index(Model model, HttpServletRequest request){
 
-        model.addAttribute("menus", menuDao.findAll());
         model.addAttribute("title", "Menus");
+        model.addAttribute("menus", menuDao.findAll());
         model.addAttribute("sessionOn", isSessionActive(request.getSession()));
 
         return "menu/index";
@@ -40,8 +40,8 @@ public class MenuController extends AbstractController {
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String displayMenuForm(Model model, HttpServletRequest request){
 
-        model.addAttribute(new Menu());
         model.addAttribute("title", "Add Menu");
+        model.addAttribute(new Menu());
         model.addAttribute("sessionOn", isSessionActive(request.getSession()));
 
         return "menu/add";
@@ -71,36 +71,60 @@ public class MenuController extends AbstractController {
         return "menu/view";
     }
 
-    @RequestMapping(value = "add-item/{menuId}", method = RequestMethod.GET)
+    @RequestMapping(value = "edit-item/{menuId}", method = RequestMethod.GET)
     public String addItem(Model model, @PathVariable int menuId, HttpServletRequest request) {
 
         Menu menu = menuDao.findOne(menuId);
         MenuForm form = new MenuForm(
                 recipeDao.findAll(), menu);
+//        MenuForm removeForm = new MenuForm(
+//                recipes.menu, menu);
         model.addAttribute("sessionOn", isSessionActive(request.getSession()));
-        model.addAttribute("title", "Add recipe to: " + menu.getName());
+        model.addAttribute("title", "Edit recipes for: " + menu.getName());
+        model.addAttribute("addItem", "Add Recipe");
+        model.addAttribute("removeItem", "Remove Recipe");
         model.addAttribute("form", form);
 
-        return "menu/add-item";
+        return "menu/edit-item";
     }
 
     @RequestMapping(value = "add-item", method = RequestMethod.POST)
     public String addItem(Model model,
-                          @ModelAttribute @Valid MenuForm form,
+                          @ModelAttribute @Valid MenuForm addForm,
                           Errors errors, HttpServletRequest request) {
 
         model.addAttribute("sessionOn", isSessionActive(request.getSession()));
         if (errors.hasErrors()) {
-            model.addAttribute("form", form);
-            return "menu/add-item";
+            model.addAttribute("form", addForm);
+            return "menu/edit-item";
         }
 
-        Recipe theRecipe = recipeDao.findOne(form.getRecipeId());
-        Menu theMenu = menuDao.findOne(form.getMenuId());
+        Recipe theRecipe = recipeDao.findOne(addForm.getRecipeId());
+        Menu theMenu = menuDao.findOne(addForm.getMenuId());
         theMenu.addItem(theRecipe);
         menuDao.save(theMenu);
 
         return "redirect:view/" + theMenu.getId();
     }
+
+    @RequestMapping(value = "remove-item", method = RequestMethod.POST)
+    public String removeItem(Model model,
+                          @ModelAttribute @Valid MenuForm removeForm,
+                          Errors errors, HttpServletRequest request) {
+
+        model.addAttribute("sessionOn", isSessionActive(request.getSession()));
+        if (errors.hasErrors()) {
+            model.addAttribute("form", removeForm);
+            return "menu/edit-item";
+        }
+
+        Recipe theRecipe = recipeDao.findOne(removeForm.getRecipeId());
+        Menu theMenu = menuDao.findOne(removeForm.getMenuId());
+        theMenu.removeItem(theRecipe);
+        menuDao.save(theMenu);
+
+        return "redirect:view/" + theMenu.getId();
+    }
+
 
 }

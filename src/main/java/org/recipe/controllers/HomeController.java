@@ -22,7 +22,7 @@ public class HomeController extends AbstractController {
         model.addAttribute("title", "All Recipes");
         model.addAttribute("recipes", recipeDao.findAll());
         model.addAttribute("sessionOn", isSessionActive(request.getSession()));
-
+        model.addAttribute("favoritesOff", true);
         return "index";
     }
 
@@ -32,17 +32,21 @@ public class HomeController extends AbstractController {
         model.addAttribute("title", user.getUsername() + "'s Recipes");
         model.addAttribute("recipes", recipeDao.findByAuthor(user));
         model.addAttribute("sessionOn", isSessionActive(request.getSession()));
-
+        model.addAttribute("favorites", user.getFavorites());
+        model.addAttribute("faveTitle", "My Favorites");
         return "index";
     }
 
     @RequestMapping(value = "/about")
-    public String aboutIndex (HttpServletRequest request){
+    public String aboutIndex (Model model,HttpServletRequest request){
+        model.addAttribute("sessionOn", isSessionActive(request.getSession()));
+
         return "about";
     }
 
     @RequestMapping(value = "/map")
-    public String mapIndex (HttpServletRequest request){
+    public String mapIndex (Model model, HttpServletRequest request){
+        model.addAttribute("sessionOn", isSessionActive(request.getSession()));
         return "map";
     }
     // TODO own recipe

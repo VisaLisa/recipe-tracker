@@ -28,6 +28,9 @@ public class User {
     @JoinColumn(name = "author_id")
     private List<Recipe> recipes;
 
+    @ManyToMany
+    private List<Recipe> favorites;
+
     public User() {}
 
     public User(String username, String password) {
@@ -79,5 +82,17 @@ public class User {
 
     public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
+    }
+
+    public List<Recipe> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(List<Recipe> favorites) {
+        this.favorites = favorites;
+    }
+
+    public void addFavorite(Recipe recipe) {
+        favorites.add(recipe);
     }
 }

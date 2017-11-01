@@ -39,6 +39,7 @@ public class SearchController extends AbstractController {
         Iterable<Recipe> recipeList = recipeDao.findAll();
         Iterable<User> userList = userDao.findAll();
         model.addAttribute("sessionOn", isSessionActive(request.getSession()));
+        model.addAttribute("sessionUser", getUserFromSession(request.getSession()));
         String keyword = searchForm.getKeyword().toLowerCase();
 
         if (searchForm.getSearchField().equals(RecipeFieldType.ALL)) {
